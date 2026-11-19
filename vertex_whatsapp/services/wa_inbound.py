@@ -37,6 +37,11 @@ OPT_OUT_KEYWORDS = {
 STATUS_RANK = {"received": 0, "sent": 1, "delivered": 2, "read": 3}
 
 
+# The hourly sweeper only touches events older than this, so it never races with a job that is
+# still waiting in the queue (normal processing takes seconds).
+PENDING_EVENT_MIN_AGE_MINUTES = 10
+
+
 class UnsupportedPayload(Exception):
 	"""The payload is valid but has a shape we can't store yet. The event stays unprocessed with this note."""
 
@@ -76,7 +81,7 @@ def process_pending_events() -> None:
 	Events that already have an error are left alone so a broken payload doesn't loop forever.
 	To retry one, a System Manager clears its Error field.
 	"""
-	cutoff = now_datetime() - timedelta(minutes=5)
+	cutoff = now_datetime() - timedelta(minutes=PENDING_EVENT_MIN_AGE_MINUTES)
 	names = frappe.get_all(
 		"WA Event",
 		filters={"processed": 0, "creation": ["<", cutoff]},

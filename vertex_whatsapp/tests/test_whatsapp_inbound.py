@@ -285,15 +285,30 @@ class TestInboundProcessing(FrappeTestCase):
 		store_and_process(P.text_message("wamid.TEST_OPTX", UK, body="Please don't stop helping me find work"))
 		self.assertEqual(frappe.db.get_value("WA Contact", UK, "opted_out"), 0)
 
-	def test_pending_sweeper_processes_stale_events(self):
+	def _unprocessed_event(self, wamid: str, age_minutes: int) -> str:
 		event = frappe.get_doc(
 			{"doctype": "WA Event", "received_at": frappe.utils.now_datetime(), "event_type": "message",
-			 "payload": json.dumps(P.text_message("wamid.TEST_SWEEP", UK))}
+			 "payload": json.dumps(P.text_message(wamid, UK))}
 		).insert(ignore_permissions=True)
-		frappe.db.set_value("WA Event", event.name, "creation", frappe.utils.add_to_date(None, minutes=-10), update_modified=False)
+		frappe.db.set_value("WA Event", event.name, "creation", frappe.utils.add_to_date(None, minutes=-age_minutes), update_modified=False)
+		frappe.db.commit()
+		return event.name
+
+	def test_pending_sweeper_processes_events_older_than_10_minutes(self):
+		event = self._unprocessed_event("wamid.TEST_SWEEP_OLD", age_minutes=11)
 		wa_inbound.process_pending_events()
-		self.assertEqual(frappe.db.get_value("WA Event", event.name, "processed"), 1)
-		self.assertIsNotNone(message_by_wamid("wamid.TEST_SWEEP"))
+		self.assertEqual(frappe.db.get_value("WA Event", event, "processed"), 1)
+		self.assertIsNotNone(message_by_wamid("wamid.TEST_SWEEP_OLD"))
+
+	def test_pending_sweeper_leaves_recent_events_to_the_queue(self):
+		self.assertEqual(wa_inbound.PENDING_EVENT_MIN_AGE_MINUTES, 10)
+		fresh = self._unprocessed_event("wamid.TEST_SWEEP_NEW", age_minutes=0)
+		nine = self._unprocessed_event("wamid.TEST_SWEEP_9MIN", age_minutes=9)
+		wa_inbound.process_pending_events()
+		for name in (fresh, nine):
+			self.assertEqual(frappe.db.get_value("WA Event", name, "processed"), 0)
+		self.assertIsNone(message_by_wamid("wamid.TEST_SWEEP_NEW"))
+		self.assertIsNone(message_by_wamid("wamid.TEST_SWEEP_9MIN"))
 
 
 class TestInternalContacts(FrappeTestCase):
