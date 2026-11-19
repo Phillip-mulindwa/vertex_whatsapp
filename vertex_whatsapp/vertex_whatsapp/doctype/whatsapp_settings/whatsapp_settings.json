@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "creation": "2026-11-19 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "phone_number_id",
+  "waba_id",
+  "graph_version",
+  "display_number",
+  "secrets_note"
+ ],
+ "fields": [
+  {
+   "description": "From Meta App Dashboard > WhatsApp > API Setup. Not a secret.",
+   "fieldname": "phone_number_id",
+   "fieldtype": "Data",
+   "label": "Phone Number ID"
+  },
+  {
+   "fieldname": "waba_id",
+   "fieldtype": "Data",
+   "label": "WhatsApp Business Account ID"
+  },
+  {
+   "default": "v27.0",
+   "description": "e.g. v27.0 (latest as of Nov 2026).",
+   "fieldname": "graph_version",
+   "fieldtype": "Data",
+   "label": "Graph API Version"
+  },
+  {
+   "description": "The WhatsApp number customers see, e.g. +44 7700 900000.",
+   "fieldname": "display_number",
+   "fieldtype": "Data",
+   "label": "Display Number"
+  },
+  {
+   "fieldname": "secrets_note",
+   "fieldtype": "HTML",
+   "label": "Secrets",
+   "options": "<p class='text-muted small'>Secrets (access token, app secret, verify token) are never stored here. They live only in the site's site_config.json.</p>"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Vertex WhatsApp",
+ "name": "WhatsApp Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
