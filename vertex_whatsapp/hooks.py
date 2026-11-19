@@ -242,3 +242,10 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+
+# Safety net: process any WhatsApp events that were stored but never processed.
+scheduler_events = {
+	"hourly": [
+		"vertex_whatsapp.services.wa_inbound.process_pending_events",
+	],
+}
