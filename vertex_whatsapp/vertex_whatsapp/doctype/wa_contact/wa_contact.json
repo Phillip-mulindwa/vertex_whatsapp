@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "autoname": "field:wa_id",
+ "creation": "2026-11-19 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "wa_id",
+  "profile_name",
+  "phone",
+  "country_code",
+  "country_name",
+  "flagged_country",
+  "column_break_status",
+  "category",
+  "conversation_status",
+  "is_internal",
+  "section_activity",
+  "first_seen",
+  "last_inbound_at",
+  "column_break_opt",
+  "opted_out",
+  "opted_out_at"
+ ],
+ "fields": [
+  {
+   "description": "The customer's number in international format, digits only.",
+   "fieldname": "wa_id",
+   "fieldtype": "Data",
+   "label": "WhatsApp ID",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "profile_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Profile Name"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone",
+   "read_only": 1
+  },
+  {
+   "fieldname": "country_code",
+   "fieldtype": "Data",
+   "label": "Country Code",
+   "length": 2,
+   "read_only": 1
+  },
+  {
+   "fieldname": "country_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Country",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Ethiopia, Philippines, Uganda or South Africa.",
+   "fieldname": "flagged_country",
+   "fieldtype": "Check",
+   "label": "Flagged Country",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "default": "Unclear",
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "Unclear\nAgency\nCandidate"
+  },
+  {
+   "default": "AI handling",
+   "fieldname": "conversation_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Conversation Status",
+   "options": "AI handling\nNeeds Phillip\nDone"
+  },
+  {
+   "default": "0",
+   "description": "Set automatically from WA Internal Contact. Internal contacts are never answered by the AI.",
+   "fieldname": "is_internal",
+   "fieldtype": "Check",
+   "label": "Internal Contact",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_activity",
+   "fieldtype": "Section Break",
+   "label": "Activity"
+  },
+  {
+   "fieldname": "first_seen",
+   "fieldtype": "Datetime",
+   "label": "First Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_inbound_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Inbound At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_opt",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "default": "0",
+   "fieldname": "opted_out",
+   "fieldtype": "Check",
+   "label": "Opted Out"
+  },
+  {
+   "fieldname": "opted_out_at",
+   "fieldtype": "Datetime",
+   "label": "Opted Out At",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-11-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Vertex WhatsApp",
+ "name": "WA Contact",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "profile_name,country_name",
+ "show_title_field_in_link": 1,
+ "sort_field": "last_inbound_at",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "profile_name"
+}
